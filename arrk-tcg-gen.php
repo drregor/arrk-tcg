@@ -1,18 +1,17 @@
 <?php
-
-print "\n## Arrk Card Generator ##\n";
+print "## Arrk Card Generator ##\n";
 
 //Image size
-$x =
-$y =
+$x = 825;
+$y = 1125;
 
 //gutter x
-$gx = ($width*.02);
+$gx = ($x*.02);
 //gutter y
-$gy = ($height*.075);
+$gy = ($y*.075);
 
 //panel boarder
-$boarder = ($width*.01);
+$boarder = ($x*.01);
 
 //Font
 $font = "/mnt/wd2tb/Temp/arrk-tcg/font.ttf";
@@ -33,17 +32,45 @@ $black = imagecolorallocate($im, 0,0,0);
 $red = imagecolorallocate($im, 20,0,0);
 $clear = imagecolorallocate($im, 138,138,138);
 
-$homepage = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards');
-echo $homepage;
+imagefilledrectangle($im, 0,0,$x,$y,$red);
+imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 
-$type = "hero";
-$type = "title";
+unset ($data);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
 
-imagecolortransparent($im, $clear);
-imagefilledrectangle($im, 0,0,$width,$height,$white);
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
+
+#print_r($matches);
+
+#print $matches[1][1];
+
+foreach ($matches as $v1) {
+	foreach ($v1 as $v2) {
+	$type = "Hero";
+	echo "$v2\n";
+	$hero = "Hero:";
+	$heropos = strpos($v2, $hero);
+	$quote = "Quote:";
+	$quotepos = strpos($v2, $quote);
+	$name = substr($v2, $heropos+6, $quotepos-6);
+	$name = trim($name);
+	print "$name\n";
+	$title = $name;
+	imagejpeg($im,"output/$type-$title.jpg");
+
+	}
+}
+
+#$type = "hero";
+$title = "title";
+
+#imagecolortransparent($im, $clear);
+#imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 
 
-imagejpeg($im,"output/$type-$title.jpg");
+#imagejpeg($im,"output/$type-$title.jpg");
 imageDestroy($im);
 
 ?>
