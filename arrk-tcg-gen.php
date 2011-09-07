@@ -14,7 +14,7 @@ $gx = (55);
 $gy = (55);
 
 //panel boarder
-$boarder = ($x*.01);
+$b = ($gx*.75);
 
 //Font
 $font = "/mnt/wd2tb/Temp/arrk-tcg/Alike-Regular.ttf";
@@ -47,6 +47,9 @@ $data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read th
 
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
 
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
+
 #print_r($matches);
 
 #print $matches[1][1];
@@ -58,15 +61,19 @@ foreach ($matches as $v1) {
                         if ($has_pre){
                         }else{
 
-	$type = "Hero";
+	#$type = "Hero";
 	echo "$v2\n";
-	$hero = "Hero:";
-	$heropos = strpos($v2, $hero);
+	$mname = "Name:";
+	$namepos = strpos($v2, $mname);
+	$type = "Type:";
+	$typepos = strpos($v2, $type);
 	$quote = "Quote:";
 	$quotepos = strpos($v2, $quote);
-	$name = substr($v2, $heropos+6, $quotepos-6);
+	$name = substr($v2, $namepos+6, $typepos-6);
 	$name = trim($name);
-	print "$name\n";
+	$type = substr($v2, $typepos+6,$quotepos-6);
+
+#	print "$name\n";
 	$title = $name;
 	// create boarder
 	imagefilledrectangle($im, 0,0,$x,$y,$blue);
@@ -78,7 +85,7 @@ foreach ($matches as $v1) {
 	imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
 
 	//put the text in
-	imagefttext($im, 15,0,$gx+20,$gy+80,$black,$font,$v2);
+	imagefttext($im, 15,0,$gx+20,$gy+($y/2),$black,$font,$v2);
 	// create image
 	imagejpeg($im,"output/$type-$title.jpg");
 		}
@@ -108,23 +115,23 @@ foreach ($matches as $v1) {
         $name = trim($name);
         print "$name\n";
         $title = $name;
-        // create boarder
-        imagefilledrectangle($im, 0,0,$x,$y,$red);
-        // create white space
-        imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
-
+        // create bleed boarder
+        #imagefilledrectangle($im, 0,0,$x,$y,$black);
+        // create inner boarder
+        #imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$red);
+	// Create write space
+	#imagefilledrectangle($im, $b,$b+($y/2),$x,$y,$white);
 
         //Write the name on the card
-        imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
+        #imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
 
         //put the text in
-        imagefttext($im, 15,0,$gx+20,$gy+80,$black,$font,$v2);
+        #imagefttext($im, 15,0,$gx+20,$gy+80,$black,$font,$v2);
         // create image
-        imagejpeg($im,"output/$type-$title.jpg");
+        #imagejpeg($im,"output/$type-$title.jpg");
                 }
         }
 }
-
 
 imageDestroy($im);
 
