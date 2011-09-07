@@ -42,44 +42,55 @@ imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 unset ($data);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
-
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
+
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
+
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
+
+$allcards = array_merge($dungeonmatches, $heromatches, $monstermatches,$trapmatches);
 
 #print_r($matches);
 
 #print $matches[1][1];
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards');
-foreach ($matches as $v1) {
+foreach ($allcards as $v1) {
 	foreach ($v1 as $v2) {
 		$has_pre = eregi( "<pre>",$v2);
                         if ($has_pre){
                         }else{
 
-	#$type = "Hero";
-	echo "$v2\n";
+	// print out datea
+#	echo "$v2\n";
+	// set search string
 	$mname = "Name:";
 	$namepos = strpos($v2, $mname);
 	$type = "Type:";
 	$typepos = strpos($v2, $type);
 	$quote = "Quote:";
 	$quotepos = strpos($v2, $quote);
-	$name = substr($v2, $namepos+6, $typepos-6);
+	$name = substr($v2, $namepos+6,$typepos-6);
 	$name = trim($name);
-	$type = substr($v2, $typepos+6,$quotepos-6);
+	$type = substr($v2, $typepos+5,$quotepos-$typepos-6);
+	$type = trim($type);
 
-#	print "$name\n";
+
+#	print "Name Position: $namepos Type Postion: $typepos Quote Pos: $quotepos Name: $name Type: $type\n";  //for testing
+
 	$title = $name;
-	// create boarder
+	// create bleed boarder
 	imagefilledrectangle($im, 0,0,$x,$y,$blue);
-	// create white space
+
+	// create inner space
 	imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 
+        // Create write space
+        imagefilledrectangle($im, $b,$b+($y/2),$x,$y,$white);
 
 	//Write the name on the card
 	imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
@@ -87,50 +98,11 @@ foreach ($matches as $v1) {
 	//put the text in
 	imagefttext($im, 15,0,$gx+20,$gy+($y/2),$black,$font,$v2);
 	// create image
+	print "Creating Card: $type-$title\n";
 	imagejpeg($im,"output/$type-$title.jpg");
+
 		}
 	}
-}
-
-unset ($matches);
-unset ($data);
-
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
-
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $matches);
-
-foreach ($matches as $v1) {
-        foreach ($v1 as $v2) {
-                $has_pre = eregi( "<pre>",$v2);
-                        if ($has_pre){
-                        }else{
-
-        $type = "Monster";
-        echo "$v2\n";
-        $mname = "Name:";
-        $heropos = strpos($v2, $mname);
-        $quote = "Type:";
-        $quotepos = strpos($v2, $quote);
-        $name = substr($v2, $heropos+6, $quotepos-6);
-        $name = trim($name);
-        print "$name\n";
-        $title = $name;
-        // create bleed boarder
-        #imagefilledrectangle($im, 0,0,$x,$y,$black);
-        // create inner boarder
-        #imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$red);
-	// Create write space
-	#imagefilledrectangle($im, $b,$b+($y/2),$x,$y,$white);
-
-        //Write the name on the card
-        #imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
-
-        //put the text in
-        #imagefttext($im, 15,0,$gx+20,$gy+80,$black,$font,$v2);
-        // create image
-        #imagejpeg($im,"output/$type-$title.jpg");
-                }
-        }
 }
 
 imageDestroy($im);
