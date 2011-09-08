@@ -62,10 +62,25 @@ unset ($data);
 #$data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
 #preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
 
-#$allcards = array_merge($dungeonmatches, $ringmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Scrolls');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $scrollmatches);
 
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Amulets');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $amuletmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Chest');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $chestmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Head');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $headmatches);
+
+
+#$allcards = array_merge($dungeonmatches, $chestmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+
+//did this so as not to kill wikia pulling data
 $data = file_get_contents('list.txt');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $allcards);
+
 
 #print_r($matches);
 
