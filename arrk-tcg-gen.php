@@ -74,8 +74,25 @@ unset ($data);
 #$data = file_get_contents('http://arrktcg.wikia.com/wiki/Head');
 #preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $headmatches);
 
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Pants');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $pantsmatches);
 
-#$allcards = array_merge($dungeonmatches, $chestmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boots');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bootsmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Weapons');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $weaponsmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Miscellaneous_Items');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $miscmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Gloves');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $glovesmatches);
+
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Belts');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $beltsmatches);
+
+#$allcards = array_merge($dungeonmatches, $chestmatches, $miscmatches, $beltsmatches, $glovematches, $bootsmatches, $weaponsmatches, $pantsmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
 
 //did this so as not to kill wikia pulling data
 $data = file_get_contents('list.txt');
