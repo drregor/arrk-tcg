@@ -1,5 +1,5 @@
 <?php
-//Pulls data from a wikia site, and creates png's well jpegs but we will fix that.  
+//Pulls data from a wikia site, and creates png's well jpegs but we will fix that.
 // anyway my code is crap, so don't judge I am sure there are a million ways better of doing this.
 
 print "## Arrk Card Generator ##\n";
@@ -9,9 +9,9 @@ $x = 825;
 $y = 1125;
 
 //gutter x
-$gx = (55);
+$gx = 55;
 //gutter y
-$gy = (55);
+$gy = 55;
 
 //panel boarder
 $b = ($gx*.75);
@@ -23,7 +23,7 @@ $font = "/mnt/wd2tb/Temp/arrk-tcg/Alike-Regular.ttf";
 $smallfontsize = ($x/2);
 
 //make the image  YAY!
-$im = imagecreate($x,$y);
+$im = imagecreatetruecolor($x,$y);
 
 $c4 = mt_rand(200,255); //r(ed)
 $c5 = mt_rand(200,255); //g(reen)
@@ -41,28 +41,31 @@ imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 
 unset ($data);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Potions');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $potionmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Potions');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $potionmatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boss_Cards');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bossmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boss_Cards');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bossmatches);
 
-$data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
-preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
+#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
+#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
 
-$allcards = array_merge($dungeonmatches, $ringmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+#$allcards = array_merge($dungeonmatches, $ringmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+
+$data = file_get_contents('list.txt');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $allcards);
 
 #print_r($matches);
 
@@ -110,6 +113,13 @@ foreach ($allcards as $v1) {
 	//create uppper picture area (although is this needed?  probably we can leave it in
 	imagefilledrectangle($im, $gx+$b,$b+$gy,$x-$gx-$b,($y/2)-($b/2),$white);
 
+	//create image from folder
+	$file = "./cardimages/$name.png";
+	$cardimage = imagecreatefrompng($file);
+
+	//merge in an image here...
+	imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+
         // Create write space
         imagefilledrectangle($im, $gx+$b,($b/2)+($y/2),$x-$gx-$b,$y-$gy-$b,$white);
 
@@ -121,6 +131,8 @@ foreach ($allcards as $v1) {
 	// create image
 	print "Creating Card: $type-$title\n";
 	imagejpeg($im,"output/$type-$title.jpg");
+
+	imagedestroy($cardimage);
 
 		}
 	}
