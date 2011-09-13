@@ -1,0 +1,96 @@
+<pre>Name: Bacon Strips
+Type: Present
+Quote: 
+Kind: "Potion"
++1 Aim until next turn
+</pre>
+<p><br />
+</p>
+<pre>Name: Frostilicas
+Type: Trap
+Quote: Two types of vodka can't be wrong
+Kind: Potion
+heal +1 Health point
+-2 int
+-1 dodge
+Till the end of combat, then you are not able to participate in combat until your next turn.
+</pre>
+<p><br />
+</p>
+<pre>Name: Hot Hamburger
+Type: Monster
+Quote: 
+Kind: "Potion"
+Heals 2 health points
+</pre>
+<p><br />
+</p>
+<pre>Name: Jager Paralyzer
+Type: Boss
+Quote:
+Kind: Potion
++3 CA this combat round
+-4 CA next combat round
+</pre>
+<p><br />
+
+</p>
+<pre>Name: Is it Sun
+Type: Hero
+Quote: Is it Sun? 
+Kind: potion
+More of a hard yellow candy
++1 Int until the end of your next turn.
+</pre>
+<p><br />
+</p>
+<pre>Name: Licrorice
+Type: Dungeon
+Quote: I eat my licorice fast and hard!
+Kind: Potion
++1 dodge until the end of your next turn
+</pre>
+<p><br />
+</p>
+<pre>Name: Purple Drunksaurus
+Type: Present
+Quote: 
+Kind: Potion
++4 Health Points
++1 Sexy
+-1 Int until the begining of your next turn.
+Drink!
+</pre>
+<p><br />
+</p>
+<pre>Name: Scotch
+Type: Trap
+Quote: Scotch, really good scotch
+Kind: Potion
+Heal 6 health points
+-1 to Aim until the end of combat.
+Drink!
+</pre>
+<p><br />
+</p>
+
+<pre>Name: Skittlebrau
+Type: Present
+Quote: It's disgusting!
+Kind: Potion
+1 in 6 chance of vomenting negating all effects
++2 Int
++3 Sexy
+-3 dodge
+-2 Armor
+Until the end of combat
+</pre>
+<p><br />
+</p>
+<pre>Name: Small Healing Potion of Healing
+Type: Present
+Quote:
+Kind: Potion
+Heal 2 health points
+Drink!
+</pre>
