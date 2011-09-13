@@ -4,9 +4,15 @@
 
 print "## Arrk Card Generator ##\n";
 
+//Set test or not
+$test = 0; //set to 1 to use local file, rather than web page
+
 //Image size
 $x = 825;
 $y = 1125;
+
+//Gutter
+$g = 55;
 
 //gutter x
 $gx = 55;
@@ -41,63 +47,66 @@ imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
 
 unset ($data);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
+if ($test == 0) {
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Potions');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $potionmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Potions');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $potionmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boss_Cards');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bossmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boss_Cards');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bossmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Scrolls');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $scrollmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Scrolls');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $scrollmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Amulets');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $amuletmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Amulets');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $amuletmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Chest');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $chestmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Chest');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $chestmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Head');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $headmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Head');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $headmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Pants');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $pantsmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Pants');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $pantsmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boots');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bootsmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Boots');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bootsmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Weapons');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $weaponsmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Weapons');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $weaponsmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Miscellaneous_Items');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $miscmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Miscellaneous_Items');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $miscmatches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Gloves');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $glovesmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Gloves');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $glovematches);
 
-#$data = file_get_contents('http://arrktcg.wikia.com/wiki/Belts');
-#preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $beltsmatches);
+$data = file_get_contents('http://arrktcg.wikia.com/wiki/Belts');
+preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $beltsmatches);
 
-#$allcards = array_merge($dungeonmatches, $chestmatches, $miscmatches, $beltsmatches, $glovematches, $bootsmatches, $weaponsmatches, $pantsmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+$allcards = array_merge($dungeonmatches, $chestmatches, $miscmatches, $beltsmatches, $glovematches, $bootsmatches, $weaponsmatches, $pantsmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
+}
 
+if ($test == 1) {
 //did this so as not to kill wikia pulling data
 $data = file_get_contents('list.txt');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $allcards);
-
+}
 
 #print_r($matches);
 
@@ -125,12 +134,12 @@ foreach ($allcards as $v1) {
 
 	//Set card colours
 	$bbcolour = imagecolorallocate($im, mt_rand(0,255), mt_rand(0,255), mt_rand(0,255));
-	if ($type == "Monster") {$bbcolour = imagecolorallocate($im, 255,0,0);} //Red
-        if ($type == "Trap") {$bbcolour = imagecolorallocate($im, 0,255,0);} // Green, slime
+	if ($type == "Monster") {$bbcolour = imagecolorallocate($im, 204,0,0);} //Red
+        if ($type == "Trap") {$bbcolour = imagecolorallocate($im, 0,153,0);} // Green, slime
 	if ($type == "Dungeon") {$bbcolour = imagecolorallocate($im, 0,55,0);} // Green, earthy
 	if ($type == "Hero") {$bbcolour = imagecolorallocate($im, 0,0,255);} // blue
-        if ($type == "Boss") {$bbcolour = imagecolorallocate($im, 240,0,255);} // black
-        if ($type == "Present") {$bbcolour = imagecolorallocate($im, 60,50,255);} // gold
+        if ($type == "Boss") {$bbcolour = imagecolorallocate($im, 51,0,0);} // black
+        if ($type == "Present") {$bbcolour = imagecolorallocate($im, 255,255,0);} // gold
 
 #	print "Name Position: $namepos Type Postion: $typepos Quote Pos: $quotepos Name: $name Type: $type\n";  //for testing
 
@@ -145,26 +154,56 @@ foreach ($allcards as $v1) {
 	//create uppper picture area (although is this needed?  probably we can leave it in
 	imagefilledrectangle($im, $gx+$b,$b+$gy,$x-$gx-$b,($y/2)-($b/2),$white);
 
-	//create image from folder
-	$file = "./cardimages/$name.png";
-	$cardimage = imagecreatefrompng($file);
+	//create image from folder or elsewhere
+	if(!file_exists("./cardimages/$name.png"))
+ 	{
+                $file = "./cardimages/$type.png";
+                $cardimage = imagecreatefrompng($file);
 
-	//merge in an image here...
-	imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+                //merge in an image here...
+                imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+                imagedestroy($cardimage);
+ 	}
+	else
+ 	{
+		$file = "./cardimages/$name.png";
+	        $cardimage = imagecreatefrompng($file);
+
+	        //merge in an image here...
+        	imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+	        imagedestroy($cardimage);
+	}
 
         // Create write space
         imagefilledrectangle($im, $gx+$b,($b/2)+($y/2),$x-$gx-$b,$y-$gy-$b,$white);
 
 	//Write the name on the card
-	imagefttext($im, 15,0,$gx+20,$gy+20,$black,$font,$name);
+
+	$fsize = 30; //small base font size, which we will increase
+	$bbox = imageftbbox($fsize, 0, $font, $name); //figure out width
+
+	//shrink font to fit long names
+	while ($bbox[2] > $x-($g*2)){
+		$fsize = $fsize-1;
+		$bbox = imageftbbox($fsize, 0, $font, $name);
+	}
+
+	//shrink the hight.. in case
+	while (($bbox[7]*-1) > $b){
+                $fsize = $fsize-1;
+                $bbox = imageftbbox($fsize, 0, $font, $name);
+	}
+
+	imagefttext($im, $fsize,0,$g+($g*.25)+($g*.1),$g+($g*.25)+($b/2)+($g*.1),$black,$font,$name); //shadow
+        imagefttext($im, $fsize,0,$g+($g*.25),$g+($g*.25)+($b/2),$white,$font,$name);
+
+#	print_r ($bbox);
 
 	//put the text in
 	imagefttext($im, 15,0,$gx+20+$b,$gy+($y/2),$black,$font,$v2);
 	// create image
 	print "Creating Card: $type-$title\n";
-	imagejpeg($im,"output/$type-$title.jpg");
-
-	imagedestroy($cardimage);
+	imagepng($im,"output/$type-$title.png");
 
 		}
 	}
