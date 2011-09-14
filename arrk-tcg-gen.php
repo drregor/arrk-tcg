@@ -102,6 +102,14 @@ preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $beltsmatches);
 $allcards = array_merge($dungeonmatches, $chestmatches, $miscmatches, $beltsmatches, $glovematches, $bootsmatches, $weaponsmatches, $pantsmatches, $ringmatches, $headmatches, $scrollmatches,  $amuletmatches, $heromatches, $bossmatches, $potionmatches, $monstermatches, $trapmatches);
 }
 
+//just set variables so we know how many of each card is made
+$tmonsterc = 0;
+$tpresentc = 0;
+$theroc = 0;
+$tbossc = 0;
+$ttrapc = 0;
+$tdungeonc = 0;
+
 if ($test == 1) {
 //did this so as not to kill wikia pulling data
 $data = file_get_contents('list.txt');
@@ -134,12 +142,12 @@ foreach ($allcards as $v1) {
 
 	//Set card colours
 	$bbcolour = imagecolorallocate($im, mt_rand(0,255), mt_rand(0,255), mt_rand(0,255));
-	if ($type == "Monster") {$bbcolour = imagecolorallocate($im, 204,0,0);} //Red
-        if ($type == "Trap") {$bbcolour = imagecolorallocate($im, 0,153,0);} // Green, slime
-	if ($type == "Dungeon") {$bbcolour = imagecolorallocate($im, 0,55,0);} // Green, earthy
-	if ($type == "Hero") {$bbcolour = imagecolorallocate($im, 0,0,255);} // blue
-        if ($type == "Boss") {$bbcolour = imagecolorallocate($im, 51,0,0);} // black
-        if ($type == "Present") {$bbcolour = imagecolorallocate($im, 255,255,0);} // gold
+	if ($type == "Monster") {$bbcolour = imagecolorallocate($im, 204,0,0);$tmonsterc=$tmonsterc+1;} //Red
+        if ($type == "Trap") {$bbcolour = imagecolorallocate($im, 0,153,0);$ttrapc=$ttrapc+1;} // Green, slime
+	if ($type == "Dungeon") {$bbcolour = imagecolorallocate($im, 0,55,0);$tdungeonc=$tdungeonc+1;} // Green, earthy
+	if ($type == "Hero") {$bbcolour = imagecolorallocate($im, 0,0,255);$theroc=$theroc+1;} // blue
+        if ($type == "Boss") {$bbcolour = imagecolorallocate($im, 51,0,0);$tbossc=$tbossc+1;} // black
+        if ($type == "Present") {$bbcolour = imagecolorallocate($im, 255,255,0);$tpresentc=$tpresentc+1;} // gold
 
 #	print "Name Position: $namepos Type Postion: $typepos Quote Pos: $quotepos Name: $name Type: $type\n";  //for testing
 
@@ -210,5 +218,15 @@ foreach ($allcards as $v1) {
 }
 
 imageDestroy($im);
+
+$tcards = $tmonsterc+$tdungeonc+$tbossc+$ttrapc+$theroc+$tpresentc;
+
+print "Total Monster Cards: $tmonsterc\n";
+print "Total Dungeon Cards: $tdungeonc\n";
+print "Total Boss Cards: $tbossc\n";
+print "Total Present Cards: $tpresentc\n";
+print "Total Trap Cards: $ttrapc\n";
+print "Total Hero Cards: $theroc\n";
+print "Total Cards: $tcards\n";
 
 ?>
