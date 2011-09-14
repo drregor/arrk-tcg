@@ -5,7 +5,7 @@
 print "## Arrk Card Generator ##\n";
 
 //Set test or not
-$test = 0; //set to 1 to use local file, rather than web page
+$test = 1; //set to 1 to use local file, rather than web page
 
 //Image size
 $x = 825;
@@ -21,6 +21,10 @@ $gy = 55;
 
 //panel boarder
 $b = ($gx*.75);
+
+//eh lets do maths here for image size, in case we wan to change or soemthing
+$ix = $x-($g*2)-($b*2);
+$iy = $y/2-$g-$b-($b/2);
 
 //Font
 $font = "/mnt/wd2tb/Temp/arrk-tcg/Alike-Regular.ttf";
@@ -43,58 +47,74 @@ $red = imagecolorallocate($im, 255,0,0);
 $clear = imagecolorallocate($im, 138,138,138);
 
 imagefilledrectangle($im, 0,0,$x,$y,$red);
-imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$white);
+imagefilledrectangle($im, $g,$g,$x-$g,$y-$g,$white);
 
 unset ($data);
 
 if ($test == 0) {
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Hero_Cards'); //read the file
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $heromatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Dungeon_Cards');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $dungeonmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Monster_Cards');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $monstermatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Trap_Cards');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $trapmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Potions');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $potionmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Boss_Cards');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bossmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Rings');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $ringmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Scrolls');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $scrollmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Amulets');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $amuletmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Chest');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $chestmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Head');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $headmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Pants');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $pantsmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Boots');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $bootsmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Weapons');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $weaponsmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Miscellaneous_Items');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $miscmatches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Gloves');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $glovematches);
+sleep(5);
 
 $data = file_get_contents('http://arrktcg.wikia.com/wiki/Belts');
 preg_match_all('/<pre>(.*?)<\/pre>/s', $data, $beltsmatches);
@@ -157,33 +177,71 @@ foreach ($allcards as $v1) {
 	imagefilledrectangle($im, 0,0,$x,$y,$bbcolour);
 
 	// create inner boarder
-	imagefilledrectangle($im, $gx,$gy,$x-$gx,$y-$gy,$black);
+	imagefilledrectangle($im, $g,$g,$x-$g,$y-$g,$black);
 
 	//create uppper picture area (although is this needed?  probably we can leave it in
-	imagefilledrectangle($im, $gx+$b,$b+$gy,$x-$gx-$b,($y/2)-($b/2),$white);
+	imagefilledrectangle($im, $g+$b,$b+$g,$x-$g-$b,($y/2)-($b/2),$white);
 
-	//create image from folder or elsewhere
+	//create image from folder or elsewhere... this is horrible!
 	if(!file_exists("./cardimages/$name.png"))
  	{
-                $file = "./cardimages/$type.png";
-                $cardimage = imagecreatefrompng($file);
 
+		print "Being nice to flickr, 10sec pause\n";
+		sleep(10);
+		$imgdata = file_get_contents("http://www.flickr.com/search/?q=$name&l=commderiv&ss=0&ct=5&mt=all&adv=1&s=int");
+
+		#echo "$imgdata\n";
+		preg_match_all('/ResultsThumbsChild(.*?)ResultsThumbsChild/s', $imgdata, $imgmatches);
+		#print $imgmatches[0][0];
+		preg_match_all('/<a href(.*?)title/s', $imgmatches[0][0], $singleimg);
+		#print_r($singleimg);
+
+		$ahref = "a href=";
+	        $ahrefpos = strpos($singleimg[0][0], $ahref);
+	        $titlepos = "title";
+	        $urlpos = strpos($singleimg[0][0], $title);
+	        $url = substr($singleimg[0][0], $ahrefpos+8,$titlepos-8);
+		#print "$url\n";
+		unset ($imgdata);
+		unset ($imgmatches);
+		unset ($singleimg);
+
+		print "Being nice again, 10sec\n";
+		sleep(10);
+		$imgdata = file_get_contents("http://www.flickr.com/$url");
+
+		preg_match_all('/image_src(.*?)link/s', $imgdata, $imgurl);
+		#print_r($imgurl);
+
+                $ahref = "href=";
+                $ahrefpos = strpos($imgurl[0][0], $ahref);
+                $titlepos = ">";
+                $urlpos = strpos($imgurl[0][0], $title);
+                $url = substr($imgurl[0][0], $ahrefpos+6,$titlepos-11);
+                #print "$url\n";
+
+		$file = "./cardimages/$type.png";
+                $file = "$url";
+		$cardimage = imagecreatefromjpeg($file);
+		list($cx, $cy) = getimagesize($file);
                 //merge in an image here...
-                imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+                imagecopyresized($im, $cardimage, $g+$b,$b+$g,0,0,$ix,$iy,$cx,$cy);
+		#imagecopymerge($im, $cardimage, $g+$b,$b+$g,0,0,633,446,100);
                 imagedestroy($cardimage);
  	}
 	else
  	{
 		$file = "./cardimages/$name.png";
 	        $cardimage = imagecreatefrompng($file);
-
+		list($cx, $cy) = getimagesize($file);
 	        //merge in an image here...
-        	imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
+        	imagecopyresized($im, $cardimage, $g+$b,$b+$g,0,0,$ix,$iy,$cx,$cy);
+		#imagecopymerge($im, $cardimage, $gx+$b,$b+$gy,0,0,633,446,100);
 	        imagedestroy($cardimage);
 	}
 
         // Create write space
-        imagefilledrectangle($im, $gx+$b,($b/2)+($y/2),$x-$gx-$b,$y-$gy-$b,$white);
+        imagefilledrectangle($im, $g+$b,($b/2)+($y/2),$x-$g-$b,$y-$g-$b,$white);
 
 	//Write the name on the card
 
