@@ -5,7 +5,7 @@
 print "## Arrk Card Generator ##\n";
 
 //Set test or not
-$test = 1; //set to 1 to use local file, rather than web page
+$test = 0; //set to 1 to use local file, rather than web page
 
 //Image size
 $x = 825;
@@ -23,8 +23,8 @@ $gy = 55;
 $b = ($gx*.75);
 
 //eh lets do maths here for image size, in case we wan to change or soemthing
-$ix = $x-($g*2)-($b*2);
-$iy = $y/2-$g-$b-($b/2);
+$ix = $x-($g*2)-($b*2)+1;
+$iy = $y/2-$g-$b-($b/2)+1;
 
 //Font
 $font = "/mnt/wd2tb/Temp/arrk-tcg/Alike-Regular.ttf";
@@ -186,9 +186,19 @@ foreach ($allcards as $v1) {
 	if(!file_exists("./cardimages/$name.png"))
  	{
 
+
+                $file = "./cardimages/$type.png";
+                $cardimage = imagecreatefrompng($file);
+                list($cx, $cy) = getimagesize($file);
+		//merge in an image here...
+                imagecopyresized($im, $cardimage, $g+$b,$b+$g,0,0,$ix,$iy,$cx,$cy);
+		imagedestroy ($cardimage);
+
+	if ($test == 0) {
 		print "Being nice to flickr, 10sec pause\n";
 		sleep(10);
-		$imgdata = file_get_contents("http://www.flickr.com/search/?q=$name&l=commderiv&ss=0&ct=5&mt=all&adv=1&s=int");
+		$search = str_replace(" ", "+",$name);
+		$imgdata = file_get_contents("http://www.flickr.com/search/?q=$search&l=commderiv&ss=0&ct=5&mt=all&adv=1&s=int");
 
 		#echo "$imgdata\n";
 		preg_match_all('/ResultsThumbsChild(.*?)ResultsThumbsChild/s', $imgdata, $imgmatches);
@@ -218,9 +228,8 @@ foreach ($allcards as $v1) {
                 $titlepos = ">";
                 $urlpos = strpos($imgurl[0][0], $title);
                 $url = substr($imgurl[0][0], $ahrefpos+6,$titlepos-11);
-                #print "$url\n";
+                #print "$url\n"; //see what is shaking at this l
 
-		$file = "./cardimages/$type.png";
                 $file = "$url";
 		$cardimage = imagecreatefromjpeg($file);
 		list($cx, $cy) = getimagesize($file);
@@ -228,6 +237,7 @@ foreach ($allcards as $v1) {
                 imagecopyresized($im, $cardimage, $g+$b,$b+$g,0,0,$ix,$iy,$cx,$cy);
 		#imagecopymerge($im, $cardimage, $g+$b,$b+$g,0,0,633,446,100);
                 imagedestroy($cardimage);
+	}
  	}
 	else
  	{
@@ -245,7 +255,7 @@ foreach ($allcards as $v1) {
 
 	//Write the name on the card
 
-	$fsize = 30; //small base font size, which we will increase
+	$fsize = 20; //small base font size, which we will increase
 	$bbox = imageftbbox($fsize, 0, $font, $name); //figure out width
 
 	//shrink font to fit long names
@@ -261,12 +271,28 @@ foreach ($allcards as $v1) {
 	}
 
 	imagefttext($im, $fsize,0,$g+($g*.25)+($g*.1),$g+($g*.25)+($b/2)+($g*.1),$black,$font,$name); //shadow
-        imagefttext($im, $fsize,0,$g+($g*.25),$g+($g*.25)+($b/2),$white,$font,$name);
+        imagefttext($im, $fsize,0,$g+($g*.25),$g+($g*.25)+($b/2),$white,$font,$name);  //name
 
+
+	//put the text in the bottom window
+	# $cardtxt = wordwrap($v2, $ix);
+	$fontsize = 20;
+
+	$bbox = imageftbbox($fontsize, 0, $font, "e"); //figure out width
+	$charwidth = $ix/$bbox[2];
+	$lines = explode("\n", wordwrap($v2, $charwidth, "\n"));
 #	print_r ($bbox);
+	$bbox = imageftbbox($fontsize, 0, $font, "E"); //figure out hight
+	$liney = ($bbox[7]*-1)+(($bbox[7]*-1)/2); //width of each line plus a little extra
+	$lcount = 0;
+	// Loop through the lines and place them on the image
+	foreach ($lines as $line)
+	{
+       		imagefttext($im, $fontsize,0,$g+$b+($bbox[2]/2),$g+($y/2)+($liney*$lcount),$black,$font,$line);
+		#$liney = $liney+$liney; //increse so lines don't overlap
+		$lcount = $lcount + 1;
+	}
 
-	//put the text in
-	imagefttext($im, 15,0,$gx+20+$b,$gy+($y/2),$black,$font,$v2);
 	// create image
 	print "Creating Card: $type-$title\n";
 	imagepng($im,"output/$type-$title.png");

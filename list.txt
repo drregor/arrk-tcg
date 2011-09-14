@@ -11,13 +11,15 @@ Type: Trap
 Quote: Two types of vodka can't be wrong
 Kind: Potion
 heal +1 Health point
+now lets test word wrap
+bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon bacon
 -2 int
 -1 dodge
 Till the end of combat, then you are not able to participate in combat until your next turn.
 </pre>
 <p><br />
 </p>
-<pre>Name: Hot Hamburger
+<pre>Name: Chug!
 Type: Monster
 Quote: 
 Kind: "Potion"
@@ -74,7 +76,7 @@ Drink!
 <p><br />
 </p>
 
-<pre>Name: Skittlebrau
+<pre>Name: Rocket Rhino
 Type: Present
 Quote: It's disgusting!
 Kind: Potion

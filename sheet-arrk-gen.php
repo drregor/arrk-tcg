@@ -11,6 +11,8 @@ $y = 3300;
 //make the image  YAY!
 $im = imagecreatetruecolor($x,$y);
 
+$white = imagecolorallocate($im, 255,255,255);
+imagefilledrectangle($im, 0,0,$x,$y,$white);
 
 $dira = './output';
 $imagedir = dir($dira);
@@ -45,6 +47,7 @@ while ($images = $imagedir->read())
 			imagepng($im,"cardsheets/Sheet-$counta.png");
 			print "Creating Sheet $counta\n";
 			$counta = $counta+1;
+			imagefilledrectangle($im, 0,0,$x,$y,$white);
 		}
 	}
 }

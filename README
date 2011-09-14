@@ -1,0 +1,6 @@
+Pulls data from wikia, creates cards to go with it.  Will read in png files as art, from an output folder  but if not, it will go to flickr
+
+create these directories
+output
+cardsheets
+cardimages
